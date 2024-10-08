@@ -29,3 +29,4 @@ Both containers bind their respective ports to the host, allowing the **GIROPOPS
 
 This setup ensures that both containers can communicate seamlessly through the host's network interface.
 
+### Learned about DistroLess, avaliable in Folder DistroLess on Day-3. 
