@@ -1,1 +1,1 @@
-## Repo com finalidade de armazenar desafios e conhecimentos adquiridos durante o curso PICK 2024
+## Repo de armazenamento dos desafios e conhecimentos adquiridos durante o curso PICK 2024
