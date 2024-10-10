@@ -1,16 +1,19 @@
-FROM python:3.11.4-alpine3.18
+FROM cgr.dev/chainguard/python:latest-dev AS building
 
 WORKDIR /app
-COPY ./giropops-senhas/requirements.txt .
-COPY ./giropops-senhas/app.py .
-COPY ./giropops-senhas/templates templates/
-COPY ./giropops-senhas/static static/
-
-#ENV REDIS_HOST=x.x.x.x
-# user --env e esta variavel, deixei aqui para documentação 
-
+RUN python -m venv venv
+ENV PATH="/app/venv/bin":$PATH
+COPY /giropops-senhas/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+## MultiStaging Start
+FROM cgr.dev/chainguard/python:latest
+
+WORKDIR /app
+COPY ./giropops-senhas .
+COPY --from=building /app/venv /app/venv
+ENV PATH="/app/venv/bin:$PATH"
+ENV REDIS_HOST=192.168.14.51
 EXPOSE 5000
 
-CMD ["flask","run","--host=0.0.0.0"]
+ENTRYPOINT ["flask","run","--host=0.0.0.0"]
