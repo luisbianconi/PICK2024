@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: girus
+    service: webserver
+  name: girus
+spec:
+  containers:
+  - image: nginx
+    name: girus
+    resources: {}
+  - image: busybox
+    name: strigus
+    args: 
+    - sleep
+    - "600"
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment
+    fruta: kakatua
+  name: nginx-deployment
+  namespace: giropops
+spec:
+  replicas: 20
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+      - image: nginx:1.17.0
+        name: nginx-kakatua
+        resources:
+          limits:
+            cpu: "0.9"
+            memory: "256Mi"
+          requests:
+            cpu: "0.4"
+            memory: "64Mi"

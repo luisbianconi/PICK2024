@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment
+  name: nginx-deployment
+  namespace: giropops
+spec:
+  replicas: 20
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  strategy:
+    type: RollingUpdate # Atualiza os Pods aos poucos, sem deixar tudo indisponivel ao mesmo tempo.
+    rollingUpdate:
+      maxSurge: 10% #Posso por %, ex 10% #Pode ter até 1 a mais do que eu pedi no arquivo, ou seja, posso chegar a 11 pods no momento do update.
+      maxUnavailable: 25%
+        #Ex 10 pods -> Surge 1 e Unavaliable 2 -> Vai atualizar de 2 em 2 pods
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+      - image: nginx:1.16.0
+        name: nginx
+        resources:
+          limits:
+            cpu: "0.7"
+            memory: "256Mi"
+          requests:
+            cpu: "0.3"
+            memory: "64Mi"
