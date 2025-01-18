@@ -24,7 +24,7 @@ spec:
             cpu: "0.5"
             memory: 256Mi
           requests:
-            cpu: 0.25
+            cpu: "0.25"
             memory: 128Mi
         livenessProbe: #habilitando a probe, faz verificações de health do pod
           tcpSocket: 
@@ -44,3 +44,13 @@ spec:
           timeoutSeconds: 5 #quanto tempo pode demorar pra responder
           failureThreshold: 3 # quantas vezes precisa falhar para validar que a aplicação parou
           successThreshold: 1 # Taxa de sucesso
+        startupProbe:
+          tcpSocket: 
+            #path: /nginx #verifica o path web
+            port: 80
+          initialDelaySeconds: 10 #quanto tempo esperar após o inicio do pod, para iniciar as verificações
+          periodSeconds: 10 #tempo de espera entre as checagens
+          timeoutSeconds: 5 #quanto tempo pode demorar pra responder
+          failureThreshold: 3 # quantas vezes precisa falhar para validar que a aplicação parou
+
+
