@@ -1,0 +1,30 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: nginx-prometheus-rule
+  namespace: monitoring
+  labels: 
+    prometheus: k8s
+    role: alert-rules
+    app.lubernetes.io/name: kube-prometheus
+    app.kubernetes.io/part-of: kube-prometheus
+spec:
+  groups:
+  - name: nginx-prometheus-rule
+    rules:
+    - alert: NginxDown
+      expr: nginx_up == 0
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Nginx está fora!"
+        description: "O Nosso servidor nginx {{ $labels.pod }} morreu"
+    - alert: NginxHighRequestRate
+      expr: rate(nginx_http_requests_total[30m]) > 5
+      for: 1m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Alto trafego para o nginx" 
+        description: "O nginx está recebendo alto trafego"  

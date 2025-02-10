@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: ensure-images-from-trusted-repo
+spec:
+  validationFailureAction: Enforce
+  rules:
+  - name: trusted-repo-check
+    match:
+      resources:
+        kinds:
+        - Pod
+    exclude:
+      resources:
+        namespaces:
+        - giropops
+    validate:
+      message: "Somente imagens do Luis nesse Cluster!, excluindo o namespace giropops agora"
+      pattern:
+        spec:
+          containers:
+          - name: "*"
+            image: "luisbianconi/*"

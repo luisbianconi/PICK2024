@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: giropops-senhas
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/auth-type: "basic"
+    nginx.ingress.kubernetes.io/auth-secret: "giropops-senhas-users"
+    nginx.ingress.kubernetes.io/auth-realm: "Fazer Login Por Favor"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    #nginx.ingress.kubernetes.io/affinity: "cookie"
+    #nginx.ingress.kubernetes.io/session-cookie-name: "giropops-cookie"
+    nginx.ingress.kubernetes.io/upstream-hasy-by: "$request_uri"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - lab.luisbianconi.com
+    secretName: lab-luisbianconi-tls
+  rules:
+  - host: lab.luisbianconi.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: giropops-senhas
+            port:
+              number: 5000

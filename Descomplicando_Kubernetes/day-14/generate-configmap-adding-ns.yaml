@@ -1,0 +1,22 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: generate-configmap-adding-ns
+spec:
+  rules:
+  - name: validate-limits
+    match:
+      resources:
+        kinds:
+        - Namespace
+    generate:
+      apiVersion: v1
+      kind: ConfigMap
+      name: default-configmap
+      namespace: "{{request.object.metadata.name}}"
+      data:
+        data:
+          key1: "Girpopps"
+          key2: "Strigus"
+
+
