@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: silver-labs-service
+  namespace: giropops
+  labels:
+    app: silver
+spec:
+  selector:
+    app: silver
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8084

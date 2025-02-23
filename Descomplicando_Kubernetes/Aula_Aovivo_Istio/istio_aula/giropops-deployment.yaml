@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: giropops-labs-portal-v1
+  namespace: giropops
+  labels:
+    app: giropops
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: giropops
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: giropops
+        version: v1
+    spec:
+      containers:
+        - name: giropops
+          image: linuxtips/giropops-labs-portal:3.0
+          ports:
+            - containerPort: 8081
+          env:
+            - name: STRIGUS_HOST
+              value: "strigus-labs-service"
+            - name: STRIGUS_PORT
+              value: "80"
+            - name: GIRUS_HOST
+              value: "girus-labs-service"
+            - name: GIRUS_PORT
+              value: "80"
+            - name: REDIS_HOST
+              value: "redis-labs"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: SILVER_HOST
+              value: "silver-labs-service"
+            - name: SILVER_PORT
+              value: "80"
+            - name: CHAOS_HOST
+              value: "chaos-labs-service"
+            - name: CHAOS_PORT
+              value: "80"

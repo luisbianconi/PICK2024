@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: girus-labs-v1
+  namespace: giropops
+  labels:
+    app: girus
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: girus
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: girus
+        version: v1
+    spec:
+      containers:
+        - name: girus-labs-container
+          image: linuxtips/girus-labs-service:3.0
+          ports:
+            - containerPort: 8083
+          env:
+            - name: REDIS_HOST
+              value: "redis-labs"
+            - name: REDIS_PORT
+              value: "6379"

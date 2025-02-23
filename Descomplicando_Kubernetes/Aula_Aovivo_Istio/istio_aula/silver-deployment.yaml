@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: silver-labs-v1
+  namespace: giropops
+  labels:
+    app: silver
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: silver
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: silver
+        version: v1
+    spec:
+      containers:
+        - name: silver
+          image: linuxtips/silver-labs-service:3.0
+          ports:
+            - containerPort: 8084

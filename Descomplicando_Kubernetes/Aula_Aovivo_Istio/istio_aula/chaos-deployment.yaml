@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chaos-labs-v1
+  namespace: giropops
+  labels:
+    app: chaos
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chaos
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: chaos
+        version: v1
+    spec:
+      containers:
+        - name: chaos-labs-container
+          image: linuxtips/chaos-labs-service:3.0
+          ports:
+            - containerPort: 8085
